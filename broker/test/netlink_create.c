@@ -271,7 +271,7 @@ bool
 dp_test_prefix_str_to_prefix(const char *prefix, struct dp_test_prefix *pfx)
 {
 	char buf[DP_TEST_MAX_PREFIX_STRING_LEN];
-	char *end = strchr(prefix, '/');
+	const char *end = strchr(prefix, '/');
 	bool ret;
 
 	if (!end) {
@@ -333,7 +333,7 @@ int dp_test_intf_name2index(const char *if_name)
 static char *dp_test_parse_dp_int(const char *int_string, char **nh_int)
 {
 	char buf[DP_TEST_MAX_ROUTE_STRING_LEN];
-	char *start = strchr(int_string, ':');
+	const char *start = strchr(int_string, ':');
 	char *end = strchrnul(int_string, ' ');
 
 	assert(start);
@@ -411,7 +411,7 @@ static const char *dp_test_parse_dp_nh(const char *nh_string,
 	if (*str == 'i') {
 		str = dp_test_parse_dp_int(str, &nh->nh_int);
 	} else {
-		char *end;
+		const char *end;
 		int len;
 
 		end = strchr(str, ' ');
