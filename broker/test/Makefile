@@ -11,15 +11,16 @@ build:
 	cp ../route_broker_dp_data.c .
 	cp ../route_broker_dp_data.h .
 	cp ../route_broker_dp_ctrl.c .
+	cp ../route_broker_kernel.c .
 	@echo About to build
-	gcc -o broker_test -g -Wall -Werror broker.c route_broker.c \
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o broker_test -g -Wall -Werror broker.c route_broker.c \
 	topic.c broker_test.c netlink_create.c -lmnl -lpthread -lzmq -lczmq
 
-	gcc -o broker_client_test -g -Wall -Werror broker.c route_broker.c \
-	route_broker_dp_ctrl.c broker_client_test.c topic.c  netlink_create.c \
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o broker_client_test -g -Wall -Werror broker.c route_broker.c \
+	route_broker_dp_ctrl.c route_broker_kernel.c broker_client_test.c topic.c netlink_create.c \
 	route_broker_dp_data.c -lmnl -lpthread -lzmq -lczmq -linih
 
-	gcc -o broker_dp_test  -O0 -DDEBUG -g -Wall -Werror dp_test.c \
+	$(CC) $(CPPFLAGS) $(CFLAGS) $(LDFLAGS) -o broker_dp_test -O0 -DDEBUG -g -Wall -Werror dp_test.c \
 	netlink_create.c -lmnl -lpthread -lzmq -lczmq -linih
 
 test:

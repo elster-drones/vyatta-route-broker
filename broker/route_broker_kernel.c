@@ -17,6 +17,7 @@
 #include "route_broker_internal.h"
 
 static pthread_t broker_consumer_thread;
+static bool broker_consumer_started;
 
 static object_broker_client_publish_cb obj_kernel_publish;
 
@@ -63,12 +64,18 @@ int route_broker_kernel_init(object_broker_client_publish_cb publish)
 	obj_kernel_publish = publish;
 	rc = pthread_create(&broker_consumer_thread, NULL,
 			    broker_consumer, NULL);
+	if (rc == 0)
+		broker_consumer_started = true;
 	return rc;
 
 }
 
 void route_broker_kernel_shutdown(void)
 {
+	if (!broker_consumer_started)
+		return;
+
 	pthread_cancel(broker_consumer_thread);
 	pthread_join(broker_consumer_thread, NULL);
+	broker_consumer_started = false;
 }

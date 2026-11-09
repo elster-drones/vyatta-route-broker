@@ -17,15 +17,6 @@
 #include "netlink_create.h"
 #include "cli.h"
 
-int route_broker_kernel_init(object_broker_client_publish_cb publish)
-{
-	return 0;
-}
-
-void route_broker_kernel_shutdown(void)
-{
-}
-
 struct cli cli;
 
 static void add_routes(int count)
@@ -50,6 +41,10 @@ int main(int argc, char **argv)
 	int pri;
 	int i;
 	int status;
+
+	/* brokerd has no kernel publisher, including when FPM disconnects. */
+	route_broker_kernel_shutdown();
+	route_broker_kernel_shutdown();
 
 	rc = route_broker_init();
 	assert(rc == 0);
