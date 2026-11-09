@@ -1,4 +1,6 @@
-CFLAGS += $(shell pkg-config --cflags libczmq)
+PKG_CONFIG ?= pkg-config
+
+CFLAGS += $(shell $(PKG_CONFIG) --cflags libczmq)
 
 NAME := vyatta-route-broker
 OBJS := broker.o route_broker.o route_broker_dp_ctrl.o \
